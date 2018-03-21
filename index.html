@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Das Katas</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+    option + command + j
+    <script>
+        // Array used for #'s 3,4,6,7
+        const myArray = [1, 3, 5, 3, 7, 3, 1, 1, 5];
+        const testArray = [-1, 0, 1, -1, 0, 1];
+        console.log(myArray);
+        // 1. Reverse a string
+        function reverseString(string) {
+            return string.split("").reverse().join("");
+        };
+        // unit test
+        function testReverseString() {
+            // test lower case
+            var result = reverseString("coffee")
+            console.assert(result === "eeffoc", {
+                "function": "reverseString('coffee')",
+                "expected": "eeffoc",
+                "result": result
+            });
+            console.log(1 + "a: " + result)
+            // test palindrome
+            result = reverseString("racecar");
+            console.assert(result === "racecar", {
+                "function": "reverseString('racecar')",
+                "expected": "racecar",
+                "result": result
+            });
+            console.log(1 + "b: " + result)
+            // test upper case
+            result = reverseString("Peter");
+            console.assert(result === "reteP", {
+                "function": "reverseString('Peter')",
+                "expected": "reteP",
+                "result": result
+            });
+            console.log(1 + "c: " + result)
+        }
+        testReverseString();
+
+        // 2. Reverse a sentence ("bob likes dogs" -> "dogs likes bob")
+        function reverseSentence(string) {
+            return string.split(" ").reverse().join(" ");
+        };
+        // unit test
+        function testReverseSentence() {
+            // a. standard phrase from example
+            var result = reverseSentence("bob likes dogs");
+            console.assert(result === "dogs likes bob", {
+                "function": "reverseSentence('bob likes dogs')",
+                "expected": "dogs likes bob",
+                "result": result
+            });
+            console.log(2 + "a: " + result);
+            // b.  tests with four words and capital varter
+            result = reverseSentence("How now brown cow");
+            console.assert(result === "cow brown now How", {
+                "function": "reverseSentence('How now brown cow')",
+                "expected": "cow brown now How",
+                "result": result
+            });
+            console.log(2 + "b: " + result);
+        }
+        testReverseSentence();
+        // 3. Find the minimum value in an array
+        Math.min(...myArray);
+        // unit test
+        function minArrayTest() {
+            // a. standard array with different values, some the same
+            var result = Math.min(...myArray);
+            console.assert(result === 1, {
+                "function": "Math.min(...myArray)",
+                "expected": 1,
+                "result": result
+            });
+            console.log(3 + "a: " + Math.min(...myArray));
+            // b. array with negative numbers, duplicates, and zeros
+            result = (Math.min(...testArray));
+            console.assert(result === -1, {
+                "function": "Math.min(...testArray)",
+                "expected": -1,
+                "result": result
+            });
+            console.log(3 + "b: " + Math.min(...testArray))
+        };
+        minArrayTest();
+
+        // 4 .Find the maximum value in an array
+        Math.max(...myArray);
+        // unit test
+        function maxArrayTest() {
+            // a. standard array with different values, some the same
+            var result = Math.max(...myArray);
+            console.assert(result === 7, {
+                "function": "Math.max(...myArray)",
+                "expected": 7,
+                "result": result
+            });
+            console.log(4 + "a: " + Math.max(...myArray));
+            // b. array with negative numbers, duplicates, and zeros
+            result = (Math.max(...testArray));
+            console.assert(result === 1, {
+                "function": "Math.max(...testArray)",
+                "expected": 1,
+                "result": result
+            });
+            console.log(4 + "b: " + Math.max(...testArray))
+        };
+        maxArrayTest();
+
+        // 5. Calculate a remainder (given a numerator and denominator)
+        function findRemainder(n, d) {
+            var remainder = n % d;
+            return remainder;
+        };
+        // unit test
+        function testFindRemainder() {
+            // a. expected 
+            var result = findRemainder(5, 2);
+            console.assert(result === 1, {
+                "function": "findRemainder(5, 2)",
+                "expected": 1,
+                "result": result
+            });
+            console.log(5 + "a: " + findRemainder(5, 2));
+            // b. using negative numbers produces a negative 0 in result, but prints the correct result when called...
+            result = findRemainder(-2, -1);
+            console.assert(result === 0, {
+                "function": "findRemainder(-2, -1)",
+                "expected": 0,
+                "result": result
+            });
+            console.log(5 + "b: " + findRemainder(-2, -1));
+        };
+        testFindRemainder()
+        // 6. Return distinct values from a list including duplicates (i.e. "1 3 5 3 7 3 1 1 5" -> "1 3 5 7")
+        function distinctValues(arr) {
+            var values = []
+            for (i = 0; i < arr.length; i++) {
+                if (!values.includes(arr[i])) {
+                    values.push(arr[i]);
+                }
+            }
+            return values.toString();
+        };
+        // unit test
+        function testDistictValues() {
+            // a. standard array with different values, some the same
+            var result = distinctValues(myArray);
+            console.assert(distinctValues(myArray) === "1,3,5,7", {
+                "function": "distinctValues(myArray)",
+                "expected": "1,3,5,7",
+                "result": result
+            });
+            console.log(6 + "a: " + distinctValues(myArray));
+            // b. array with negative numbers, duplicates, and zeros
+            result = distinctValues(testArray);
+            console.assert(distinctValues(testArray) === "-1,0,1", {
+                "function": "distinctValues(myArray)",
+                "expected": "-1,0,1",
+                "result": result
+            });
+            console.log(6 + "b: " + distinctValues(testArray));
+        };
+        testDistictValues()
+
+        // 7. Return distinct values and their counts (i.e. the list above becomes "1(3) 3(3) 5(2) 7(1)")
+        function countValues(arr) {
+            var values = [];
+            var valuesCount = [];
+            arr.sort();
+            for (var i = 0; i < arr.length; i++) {
+                if (!values.includes(arr[i])) {
+                    values.push(arr[i]);
+                    valuesCount.push(1);
+                } else {
+                    valuesCount[valuesCount.length - 1]++;
+                }
+            }
+            return [values, valuesCount];
+        };
+        var countResult = countValues(myArray);
+        console.log(countResult);
+
+        // 8. Given a string of expressions (only variables, +, and -) and an object describing a set of variable/value pairs like {a: 1, b: 7, c: 3, d: 14}, return the result of the expression ("a + b+c -d" would be -3).
+        // function evalExpression(str, obj) {
+            
+        //     return
+        // }
+        // console.assert(evalExpression("a + b + c - d", {a: 1, b: 7, c: 3, d: 14}) === -3);
+    </script>
+
+</body>
+
+</html>
