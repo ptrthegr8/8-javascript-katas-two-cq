@@ -175,29 +175,103 @@
         testDistictValues()
 
         // 7. Return distinct values and their counts (i.e. the list above becomes "1(3) 3(3) 5(2) 7(1)")
-        function countValues(arr) {
-            var values = [];
-            var valuesCount = [];
-            arr.sort();
+        function countDistinctValues(arr) {
+            var distinctValCount = {};
             for (var i = 0; i < arr.length; i++) {
-                if (!values.includes(arr[i])) {
-                    values.push(arr[i]);
-                    valuesCount.push(1);
+                if (arr[i] in distinctValCount) {
+                    distinctValCount[arr[i]]++;
                 } else {
-                    valuesCount[valuesCount.length - 1]++;
+                    distinctValCount[arr[i]] = 1;
                 }
             }
-            return [values, valuesCount];
+            return JSON.stringify(distinctValCount);
         };
-        var countResult = countValues(myArray);
-        console.log(countResult);
+        //unit test
+        function testCountValues() {
+            // a. standard array with different values, some the same
+            var result = countDistinctValues(myArray);
+            console.assert(countDistinctValues(myArray) === JSON.stringify({
+                1: 3,
+                3: 3,
+                5: 2,
+                7: 1
+            }), {
+                "function": "countDistinctValues(myArray)",
+                "expected": JSON.stringify({
+                    1: 3,
+                    3: 3,
+                    5: 2,
+                    7: 1
+                }),
+                "result": result
+            });
+            console.log(7 + "a: " + countDistinctValues(myArray));
+            // b. array with negative numbers, duplicates, and zeros
+            result = countDistinctValues(testArray);
+            console.assert(countDistinctValues(testArray) === JSON.stringify({
+                "0": 2,
+                "1": 2,
+                "-1": 2
+            }), {
+                "function": "countDistinctValues(testArray)",
+                "expected": JSON.stringify({
+                    "0": 2,
+                    "1": 2,
+                    "-1": 2
+                }),
+                "result": result
+            });
+            console.log(7 + "b: " + countDistinctValues(testArray));
+        };
+        testCountValues();
 
         // 8. Given a string of expressions (only variables, +, and -) and an object describing a set of variable/value pairs like {a: 1, b: 7, c: 3, d: 14}, return the result of the expression ("a + b+c -d" would be -3).
-        // function evalExpression(str, obj) {
-            
-        //     return
-        // }
-        // console.assert(evalExpression("a + b + c - d", {a: 1, b: 7, c: 3, d: 14}) === -3);
+        function evalExpression(str, obj) {
+            let espresso = [];
+            // if not empty space, push to array
+            for (let i = 0; i < str.length; i++) {
+                if (str[i] !== " ") {
+                    espresso.push(str[i]);
+                }
+            };
+            // if item from array is in the object, item in array is assigned value of item in object;
+            for (let i = 0; i < espresso.length; i++) {
+                if (espresso[i] in obj) {
+                    espresso[i] = obj[espresso[i]]
+                }
+            };
+            //  goes thru array and adds or subtracts if locates string version of operator 
+            let espressoResult = espresso[0];
+            for (let i = 2; i < espresso.length; i += 2) {
+                if (espresso[i-1] === "+") {
+                    espressoResult += espresso[i]
+                } else if (espresso[i-1] === "-") {
+                    espressoResult -= espresso[i]
+                }
+            };
+            return espressoResult;
+        };
+        //unit tests
+        // a. example string and object
+        function testEspresso() {
+        var result = evalExpression("a + b+c - d", {a: 1, b: 7, c: 3, d: 14});
+        console.assert(evalExpression("a + b+c - d", {a: 1, b: 7, c: 3, d: 14}) === -3, {
+                "function": "evalExpression('a + b+c - d', {a: 1, b: 7, c: 3, d: 14})",
+                "expected": -3,
+                "result": result
+            });
+            console.log(8 + "a: " + result);
+        // b. negative numbers
+        result = evalExpression("a + b+c - d", {a: -1, b: -7, c: -3, d: -4});
+        console.assert(evalExpression("a + b+c - d", {a: -1, b: -7, c: -3, d: -4}) === -7, {
+            "function": "evalExpression('a + b+c - d', {a: -1, b: -7, c: -3, d: -4})",
+            "expected": -15,
+            "result": result
+        });
+        console.log(8 + "b: " + result);
+        };
+        testEspresso();
+
     </script>
 
 </body>
